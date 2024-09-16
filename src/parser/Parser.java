@@ -5,7 +5,7 @@ import common.CommandType;
 
 public class Parser {
 	
-	private String command;
+	public String command;
 	
 	public void setCommand(String command) {
 		this.command = command;
@@ -17,6 +17,7 @@ public class Parser {
 		if(isCommandTypeC()) { return CommandType.C_COMMAND; }
 		if(isCommandTypeL()) { return CommandType.L_COMMAND; }
 		if(isCommandTypeComment()) { return CommandType.COMMENT; }
+		if(isCommandTypeWhitespace() ) { return CommandType.WHITESPACE; }
 		
 		return CommandType.UKNOWKN;
 	}
@@ -98,5 +99,9 @@ public class Parser {
 	
 	private boolean isCommandTypeComment() {
 		return command.matches(AssemblySpecs.COMMENT_PATTERN);
+	}
+	
+	private boolean isCommandTypeWhitespace() {
+		return command.matches(AssemblySpecs.WHITETSPACE_PATTERN);
 	}
 }

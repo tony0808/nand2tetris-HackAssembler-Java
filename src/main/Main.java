@@ -15,13 +15,14 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		
-		BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\toivanov\\eclipse-workspace\\HackAssembler\\src\\prog.asm"));
-		PrintWriter writer = new PrintWriter("C:\\Users\\toivanov\\eclipse-workspace\\HackAssembler\\src\\prog.hack");
+		BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Admin\\eclipse-workspace\\nand2tetris-JavaImpl\\src\\test.asm"));
+		PrintWriter writer = new PrintWriter("C:\\Users\\Admin\\eclipse-workspace\\nand2tetris-JavaImpl\\src\\test.hack");
 		
-		FileIO fileIO = new FileIO(reader, writer);
-		BinaryEncoder binEncoder = new BinaryEncoder(new BinarySpec());
-		
-		Translator translator = new Translator(new Parser(), binEncoder, fileIO);
+		Translator translator = new Translator(
+										new Parser(), 
+										new BinaryEncoder(new BinarySpec()), 
+										new FileIO(reader, writer)
+									);
 		
 		translator.translate();
 		

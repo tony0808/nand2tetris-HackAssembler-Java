@@ -5,5 +5,6 @@ public enum CommandType {
 	C_COMMAND,
 	L_COMMAND,
 	COMMENT,
+	WHITESPACE,
 	UKNOWKN
 }

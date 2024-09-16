@@ -10,4 +10,5 @@ public class AssemblySpecs {
     public static final String C_COMMAND_PATTERN = "^(?=.*[=;])[^=;]*(=[^=;]*)?(;[^=;]*)*[^=;]*$";
     public static final String L_COMMAND_PATTERN = "^\\(\\S+\\)$";
     public static final String COMMENT_PATTERN   = "^//.*";
+    public static final String WHITETSPACE_PATTERN = "^[\\s\\n]*$";
 }

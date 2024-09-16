@@ -30,15 +30,20 @@ public class Translator {
 			setCommand();
 			
 			switch(getCommandType()) {
-				case CommandType.A_COMMAND: execute_A_Command(); break;
-				case CommandType.C_COMMAND: execute_C_Command(); break;
-				case CommandType.L_COMMAND: execute_L_Command(); break;
-				case CommandType.COMMENT:   break;
-				case CommandType.UKNOWKN:   handleUknownCommand();
+				case A_COMMAND:  execute_A_Command(); break;
+				case C_COMMAND:  execute_C_Command(); break;
+				case COMMENT:    break;
+				case WHITESPACE: break;
+				case UKNOWKN:    handleUknownCommand();
+				default: 		 handleDefaultCase();
 			}
 			
 			advance();
 		}
+	}
+	
+	private void handleDefaultCase() {
+		System.exit(1);
 	}
 	
 	private void execute_A_Command() {
@@ -70,7 +75,7 @@ public class Translator {
 	}
 	
 	private void handleUknownCommand() {
-		System.out.println("uknown command"); 
+		System.out.println("uknown command: " + parser.command); 
 		System.exit(1);
 	}
 	
@@ -86,7 +91,7 @@ public class Translator {
 		
 		if(!firstAdvanceFlag) {
 			advance();
-			firstAdvanceFlag = false;
+			firstAdvanceFlag = true;
 		}
 		
 		return command != null;
