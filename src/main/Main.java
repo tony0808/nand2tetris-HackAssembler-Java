@@ -12,11 +12,11 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\toivanov\\eclipse-workspace\\HackAssembler\\src\\prog.asm"));
-		Parser parser = new Parser(br);
+		String command;
+		Parser parser = new Parser();
 		
-		while(parser.hasMoreCommands()) {
-			parser.advance();
-		
+		while((command = br.readLine()) != null) {
+			parser.setCommand(command);
 			switch(parser.getCommandType()) {
 				case CommandType.A_COMMAND: System.out.println(parser.getSymbol()); break;
 				case CommandType.L_COMMAND: System.out.println(parser.getSymbol()); break;
@@ -25,5 +25,7 @@ public class Main {
 				case CommandType.UKNOWKN:   System.out.println("uknown command"); System.exit(1);
 			}
 		}
+		
+		br.close();
 	}
 }

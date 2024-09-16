@@ -1,34 +1,18 @@
 package parser;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 
+import common.AssemblySpecs;
 import common.CommandType;
-import common.CommandRegex;
 
 public class Parser {
 	
-	private BufferedReader buffReader;
-	private boolean isUpcomingCommandInitialized;
-	private String currentCommand;
-	private String upcomingCommand;
+	private String command;
 	
-	public Parser(BufferedReader buffReader) throws IOException {
-		this.buffReader = buffReader;
-	}
-	
-	public boolean hasMoreCommands() throws IOException {
-		
-		if(!isUpcomingCommandInitialized) {
-			initializeUpcomingCommand();
-		}
-		
-		return upcomingCommand != null;
-	}
-	
-	public void advance() throws IOException {
-		setCurrentCommand();
-		setUpcomingCommand();
+	public void setCommand(String command) {
+		this.command = command;
 	}
 	
 	public CommandType getCommandType() {
@@ -67,79 +51,56 @@ public class Parser {
 	}
 	
 	public String getComp() {
-		int startIndex = currentCommand.indexOf('=') + 1;
-		int endIndex = currentCommand.indexOf(';');
+		int startIndex = command.indexOf('=') + 1;
+		int endIndex = command.indexOf(';');
 		
 		if(startIndex == -1) { startIndex = 0; }
-		if(endIndex == -1)   { endIndex = currentCommand.length(); }
+		if(endIndex == -1)   { endIndex = command.length(); }
 		
-		return currentCommand.substring(startIndex, endIndex);
+		return command.substring(startIndex, endIndex);
 	}
 	
 	private String parseDest() {
-		int indexOfEqualSign = currentCommand.indexOf('=');
-		return currentCommand.substring(0, indexOfEqualSign);
+		int indexOfEqualSign = command.indexOf('=');
+		return command.substring(0, indexOfEqualSign);
 	}
 	
 	private String parseJump() {
-		int indexOfSemicolon = currentCommand.indexOf(';');
-		int indexOfLastChar = currentCommand.length() - 1;
-		return currentCommand.substring(indexOfSemicolon + 1, indexOfLastChar + 1);
+		int indexOfSemicolon = command.indexOf(';');
+		int indexOfLastChar = command.length() - 1;
+		return command.substring(indexOfSemicolon + 1, indexOfLastChar + 1);
 	}
 	
 	private boolean isDestPresent() {
-		return currentCommand.contains("=");
+		return command.contains("=");
 	}
 	
 	private boolean isJumpPresent() {
-		return currentCommand.contains(";");
+		return command.contains(";");
 	}
 	
 	private String getSymbolFrom_A_Command() {
-		return currentCommand.substring(1);
+		return command.substring(1);
 	}
 	
 	private String getSymbolFrom_L_Command() {
-		return currentCommand.substring(1, currentCommand.length()-1);
+		return command.substring(1, command.length()-1);
 		
-	}
-	
-	private void initializeUpcomingCommand() throws IOException {
-		upcomingCommand = readNextCommand();
-		isUpcomingCommandInitialized = true;
-	}
-	
-	private void setCurrentCommand() {
-		currentCommand = upcomingCommand;
-	}
-	
-	private void setUpcomingCommand() throws IOException {
-		upcomingCommand = readNextCommand();
-	}
-	
-	private String readNextCommand() throws IOException {
-		String line;
-		
-		if((line = buffReader.readLine()) != null) {
-			line = line.replaceAll("\\s","");
-		}
-		
-		return line;
 	}
 	
 	private boolean isCommandTypeA() {
-		return currentCommand.matches(CommandRegex.A_COMMAND_PATTERN);
+		return command.matches(AssemblySpecs.A_COMMAND_PATTERN);
 	}
 	
 	private boolean isCommandTypeC() {
-		return currentCommand.matches(CommandRegex.C_COMMAND_PATTERN);
+		return command.matches(AssemblySpecs.C_COMMAND_PATTERN);
 	}
 	
 	private boolean isCommandTypeL() {
-		return currentCommand.matches(CommandRegex.L_COMMAND_PATTERN);
+		return command.matches(AssemblySpecs.L_COMMAND_PATTERN);
 	}
 	
 	private boolean isCommandTypeComment() {
-		return currentCommand.matches(CommandRegex.COMMENT_PATTERN);
+		return command.matches(AssemblySpecs.COMMENT_PATTERN);
 	}
 }
