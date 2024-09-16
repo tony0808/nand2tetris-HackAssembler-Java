@@ -1,4 +1,4 @@
-package BinaryEncoder;
+package binaryencoder;
 
 import common.AssemblySpecs;
 
