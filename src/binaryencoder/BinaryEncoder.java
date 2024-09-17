@@ -21,11 +21,11 @@ public class BinaryEncoder {
 		return binary.toString();
 	}
 	
-	public String encode_A_command(int decimal) {
+	public String encodeDecimal(long decimal) {
 		StringBuilder binary = new StringBuilder("");
 		
 		binary.append("0");
-		binary.append(encodeDecimal(decimal));
+		binary.append(decimalToBinary(decimal));
 		
 		return binary.toString();
 	}
@@ -42,7 +42,7 @@ public class BinaryEncoder {
 		return binarySpec.getJumpValue(jump);
 	}
 	
-	private String encodeDecimal(int decimal) {
+	private String decimalToBinary(long decimal) {
 		StringBuilder binary = new StringBuilder("");
 		int zerosToAdd;
 		

@@ -8,15 +8,24 @@ public class Parser {
 	public String command;
 	
 	public void setCommand(String command) {
-		this.command = command;
+		if(command != null) {
+			this.command = command.trim();
+		}
+		else {
+			this.command = null;
+		}
+	}
+	
+	public String getCommand() {
+		return command;
 	}
 	
 	public CommandType getCommandType() {
 		
+		if(isCommandTypeComment()) { return CommandType.COMMENT; }
 		if(isCommandTypeA()) { return CommandType.A_COMMAND; }
 		if(isCommandTypeC()) { return CommandType.C_COMMAND; }
 		if(isCommandTypeL()) { return CommandType.L_COMMAND; }
-		if(isCommandTypeComment()) { return CommandType.COMMENT; }
 		if(isCommandTypeWhitespace() ) { return CommandType.WHITESPACE; }
 		
 		return CommandType.UKNOWKN;
@@ -82,7 +91,6 @@ public class Parser {
 	
 	private String getSymbolFrom_L_Command() {
 		return command.substring(1, command.length()-1);
-		
 	}
 	
 	private boolean isCommandTypeA() {

@@ -1,17 +1,21 @@
 package fileio;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 
 public class FileIO {
-	
-	private BufferedReader reader;
+
+	private RandomAccessFile reader;
 	private PrintWriter writer;
 	
-	public FileIO(BufferedReader reader, PrintWriter writer) {
+	public FileIO(RandomAccessFile reader, PrintWriter writer) {
 		this.reader = reader;
 		this.writer = writer;
+	}
+	
+	public void resetReader() throws IOException {
+		reader.seek(0);
 	}
 	
 	public String readLine() throws IOException {

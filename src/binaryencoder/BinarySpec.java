@@ -28,7 +28,7 @@ public class BinarySpec {
     
     public String getCompValue(String key) {
     	if(!compMap.containsKey(key)) {
-    		System.out.println("Computation field cannot be mapped.");
+    		System.out.println("Computation field cannot be mapped: " + key);
     		System.exit(1);
     	}
     	return compMap.get(key);
