@@ -106,7 +106,11 @@ public class Parser {
 	}
 	
 	private boolean isCommandTypeComment() {
-		return command.matches(AssemblySpecs.COMMENT_PATTERN);
+		boolean isComment = false;
+		if(command.length() > 2 && command.substring(0, 2).matches("//")) {
+			isComment =  true;
+		}
+		return isComment;
 	}
 	
 	private boolean isCommandTypeWhitespace() {
