@@ -2,6 +2,8 @@ package binaryencoder;
 
 import java.util.HashMap;
 
+import exception.FieldMappingException;
+
 public class BinarySpec {
 	
 	private HashMap<String, String> destMap;
@@ -18,30 +20,26 @@ public class BinarySpec {
     	initializeJumpMap();
     }
     
-    public String getDestValue(String key) {
+    public String getDestValue(String key) throws FieldMappingException {
     	if(!destMap.containsKey(key)) {
-    		System.out.println("Destination field cannot be mapped.");
-    		System.exit(1);
+    		throw new FieldMappingException("Cannot map destination field");
     	}
     	return destMap.get(key);
     }
     
-    public String getCompValue(String key) {
+    public String getCompValue(String key) throws FieldMappingException {
     	if(!compMap.containsKey(key)) {
-    		System.out.println("Computation field cannot be mapped: " + key);
-    		System.exit(1);
+    		throw new FieldMappingException("Cannot map computation field");
     	}
     	return compMap.get(key);
     }
     
-    public String getJumpValue(String key) {
+    public String getJumpValue(String key) throws FieldMappingException {
     	if(!jumpMap.containsKey(key)) {
-    		System.out.println("Jump field cannot be mapped.");
-    		System.exit(1);
+    		throw new FieldMappingException("Cannot map jump field");
     	}
     	return jumpMap.get(key);
     }
-    
     
     private void initializeDestMap() {
     	destMap = new HashMap<>();

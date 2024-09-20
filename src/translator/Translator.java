@@ -11,6 +11,7 @@ import common.AssemblySpecs;
 import common.CommandType;
 import common.SymbolType;
 import common.Utility;
+import exception.FieldMappingException;
 
 
 public class Translator {
@@ -34,7 +35,7 @@ public class Translator {
 	
 	public void translate() throws IOException {
 		first_pass();
-		resetFileReader();
+		resetFileReaderAndParser();
 		second_pass();
 	}
 	
@@ -58,7 +59,8 @@ public class Translator {
 		}
 	}
 	
-	private void resetFileReader() throws IOException {
+	private void resetFileReaderAndParser() throws IOException {
+		parser.resetCommandLine();
 		fileIO.resetReader();
 	}
 	
@@ -142,17 +144,26 @@ public class Translator {
 		String dest, comp, jump;
 		String binary;
 		
+		binary = null;
+		
 		dest = parser.getDest();
 		comp = parser.getComp();
 		jump = parser.getJump();
 		
-		binary = binEncoder.encode_C_Commad(dest, comp, jump);
+		try {
+			binary = binEncoder.encode_C_Commad(dest, comp, jump);
+		}
+		catch(FieldMappingException e) {
+			System.out.println("Error at line " + parser.getCommandLine() + ": " + e.getMessage());
+			System.exit(1);
+		}
 		
 		fileIO.writeLine(binary);
 	}
 	
 	private void handleUknownCommand() {
-		System.out.println("uknown command"); 
+		long commandLine = parser.getCommandLine();
+		System.out.println("Error at line " + commandLine + ": Unknown command."); 
 		System.exit(1);
 	}
 	

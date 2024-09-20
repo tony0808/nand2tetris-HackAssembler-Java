@@ -1,6 +1,7 @@
 package binaryencoder;
 
 import common.AssemblySpecs;
+import exception.FieldMappingException;
 
 public class BinaryEncoder {
 	
@@ -10,7 +11,7 @@ public class BinaryEncoder {
 		this.binarySpec = binarySpec;
 	}
 	
-	public String encode_C_Commad(String dest, String comp, String jump) {
+	public String encode_C_Commad(String dest, String comp, String jump) throws FieldMappingException {
 		StringBuilder binary = new StringBuilder("");
 		
 		binary.append("111");
@@ -30,15 +31,15 @@ public class BinaryEncoder {
 		return binary.toString();
 	}
 	
-	private String getDestBinary(String dest) {
+	private String getDestBinary(String dest) throws FieldMappingException {
 		return binarySpec.getDestValue(dest);
 	}
 	
-	private String getCompBinary(String comp) {
+	private String getCompBinary(String comp) throws FieldMappingException {
 		return binarySpec.getCompValue(comp);
 	}
 	
-	private String getJumpBinary(String jump) {
+	private String getJumpBinary(String jump) throws FieldMappingException {
 		return binarySpec.getJumpValue(jump);
 	}
 	

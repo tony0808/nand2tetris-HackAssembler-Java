@@ -1,13 +1,19 @@
 package parser;
 
-import common.AssemblySpecs;
 import common.CommandType;
 
 public class Parser {
 	
-	public String command;
+	private String command;
+	private long commandLine;
+	
+	public Parser() {
+		command = null;
+		commandLine = 0;
+	}
 	
 	public void setCommand(String command) {
+		commandLine++;
 		if(command != null) {
 			this.command = command.trim();
 		}
@@ -18,6 +24,14 @@ public class Parser {
 	
 	public String getCommand() {
 		return command;
+	}
+	
+	public long getCommandLine() {
+		return commandLine;
+	}
+	
+	public void resetCommandLine() {
+		commandLine = 0;
 	}
 	
 	public CommandType getCommandType() {
@@ -94,15 +108,55 @@ public class Parser {
 	}
 	
 	private boolean isCommandTypeA() {
-		return command.matches(AssemblySpecs.A_COMMAND_PATTERN);
+		boolean isACommand = false;
+		if(command.length() > 1 && command.charAt(0) == '@') {
+			isACommand = true;
+		}
+		return isACommand;
 	}
 	
 	private boolean isCommandTypeC() {
-		return command.matches(AssemblySpecs.C_COMMAND_PATTERN);
+		boolean isCcommand = false;
+		
+		int indexOfEqual = command.indexOf('=');
+		
+		if(indexOfEqual != -1) {
+			isCcommand = is_C_CommandWhenEqualSignPresent();
+		}
+		else {
+			isCcommand = is_C_CommandWhenEqualSignMissing();
+		}
+		
+		return isCcommand;
+	}
+	
+	private boolean is_C_CommandWhenEqualSignPresent() {
+		boolean isCcommand = false;
+		
+		int indexOfSemicolon = command.indexOf(';');
+		int indexOfEqualSign = command.indexOf('=');
+		
+		isCcommand = indexOfSemicolon == -1 || indexOfSemicolon > indexOfEqualSign;
+	
+		return isCcommand;
+	}
+	
+	private boolean is_C_CommandWhenEqualSignMissing() {
+		boolean isCcommand = false;
+		
+		if(command.indexOf(';') != -1) {
+			isCcommand = true;
+		}
+		
+		return isCcommand;
 	}
 	
 	private boolean isCommandTypeL() {
-		return command.matches(AssemblySpecs.L_COMMAND_PATTERN);
+		boolean isLabel = false;
+		if(command.length() > 2 && command.charAt(0) == '(' && command.charAt(command.length() - 1) == ')') {
+			isLabel = true;
+		}
+		return isLabel;
 	}
 	
 	private boolean isCommandTypeComment() {
@@ -114,6 +168,10 @@ public class Parser {
 	}
 	
 	private boolean isCommandTypeWhitespace() {
-		return command.matches(AssemblySpecs.WHITETSPACE_PATTERN);
+		boolean isWhitespace = false;
+		if(command.length() == 0) {
+			isWhitespace = true;
+		}
+		return isWhitespace;
 	}
 }
